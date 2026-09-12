@@ -1,3 +1,3 @@
 # CGI
 ## **Computer Graphics 3 Semester**
-![cube](https://media1.tenor.com/m/FgaTiIt-hU8AAAAd/my-honest-reaction-blender.gif)
+![cube](https://media1.tenor.com/m/ImiFTrJzzrYAAAAC/foxy-fnaf.gif)
