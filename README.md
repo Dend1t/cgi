@@ -1,3 +1,3 @@
 # CGI
-**Computer Graphics 3 Semester**
+## **Computer Graphics 3 Semester**
 ![cube](https://media1.tenor.com/m/FgaTiIt-hU8AAAAd/my-honest-reaction-blender.gif)
