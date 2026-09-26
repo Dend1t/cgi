@@ -1,17 +1,20 @@
 from tkinter import *
 import math as m
 
+
 def crosshair_placement(event):
-    canvas.moveto('crosshair', event.x-35, event.y-35)
+    global crosshair_radius;
+    canvas.moveto('crosshair', event.x - crosshair_radius, event.y - crosshair_radius)
+
 
 def fire(event):
-    global x1, y1, x2, y2, score, radius
+    global x1, y1, x2, y2, score, target_radius
 
     center_x = (x1 + x2) / 2
     center_y = (y1 + y2) / 2
-    if m.sqrt((event.x-center_x)**2 + (event.y-center_y)**2) < radius:
+    if m.sqrt((event.x - center_x) ** 2 + (event.y - center_y) ** 2) < target_radius:
         hole_id = canvas.create_oval(event.x - 5, event.y - 5, event.x + 5, event.y + 5, fill='black', tags="target")
-        score+=1
+        score += 1
         canvas.itemconfig(score_text, text=f"Points: {score}")
     else:
         hole_id = canvas.create_oval(event.x - 5, event.y - 5, event.x + 5, event.y + 5, fill='black')
@@ -22,10 +25,11 @@ def fire(event):
 def clear_hole(hole_id):
     canvas.delete(hole_id)
 
+
 def move_target():
     global dx, x1, y1, x2, y2
     canvas.move("target", dx, 0)
-    x1, y1, x2, y2=canvas.coords("target")
+    x1, y1, x2, y2 = canvas.coords("target")
     if x1 <= 0 or x2 >= 720:
         dx = -dx
     display.after(10, move_target)
@@ -34,10 +38,11 @@ def move_target():
 display = Tk()
 display.title("Тир")
 
-canvas = Canvas(display, width = 720, height = 720)
+canvas = Canvas(display, width=720, height=720)
 canvas.pack()
 
-radius = 250
+target_radius = 260
+crosshair_radius = 50
 
 dx = 1
 x1 = 0
@@ -47,14 +52,14 @@ y2 = 0
 score = 0
 
 for i in range(8):
-    canvas.create_oval(0+30*i, 110+30*i, radius*2-30*i, radius*2+110-30*i, outline="blue", width=10, tags='target',fill='lightgray')
+    canvas.create_oval(0 + 30 * i, target_radius / 2 + 30 * i, target_radius * 2 - 30 * i, target_radius * 2.5 - 30 * i, outline="red",
+                       width=10, tags='target', fill='lightgray')
 
 score_text = canvas.create_text(20, 20, text="Points: 0", font=("Terminal", 18, "bold"), fill="black", anchor="nw")
 
-canvas.create_oval(0, 0, 70, 70, outline="red", width=2, tags='crosshair')
-canvas.create_line(70, 35, 0, 35, tags='crosshair', width=2)
-canvas.create_line(35, 70, 35, 0, tags='crosshair', width=2)
-
+canvas.create_oval(0, 0, crosshair_radius*2, crosshair_radius*2, outline="aqua", width=4, tags='crosshair')
+canvas.create_line(crosshair_radius*2, crosshair_radius, 0, crosshair_radius, tags='crosshair', width=2)
+canvas.create_line(crosshair_radius, crosshair_radius*2, crosshair_radius, 0, tags='crosshair', width=2)
 
 display.bind("<Motion>", crosshair_placement)
 display.bind("<Button-1>", fire)
