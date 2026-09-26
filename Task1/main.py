@@ -1,4 +1,5 @@
 from tkinter import *
+from random import randint
 import math as m
 
 
@@ -8,10 +9,14 @@ def crosshair_placement(event):
 
 
 def fire(event):
-    global x1, y1, x2, y2, score, target_radius
+    global x1, y1, x2, y2, score, target_radius, dx, dy
 
     center_x = (x1 + x2) / 2
     center_y = (y1 + y2) / 2
+
+    dx = randint(-2,2)
+    dy = randint(-2,2)
+
     if m.sqrt((event.x - center_x) ** 2 + (event.y - center_y) ** 2) < target_radius:
         hole_id = canvas.create_oval(event.x - 5, event.y - 5, event.x + 5, event.y + 5, fill='black', tags="target")
         score += 1
@@ -27,11 +32,13 @@ def clear_hole(hole_id):
 
 
 def move_target():
-    global dx, x1, y1, x2, y2
-    canvas.move("target", dx, 0)
+    global dx, x1, y1, x2, y2, dy
+    canvas.move("target", dx, dy)
     x1, y1, x2, y2 = canvas.coords("target")
     if x1 <= 0 or x2 >= 720:
         dx = -dx
+    if y1 <= 0 or y2 >= 720:
+        dy = -dy
     display.after(10, move_target)
 
 
@@ -45,6 +52,7 @@ target_radius = 260
 crosshair_radius = 50
 
 dx = 1
+dy = 1
 x1 = 0
 x2 = 0
 y1 = 0
